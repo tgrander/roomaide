@@ -1,1 +1,1 @@
-web: src/server/roomaide.js
+web: node roomaide.js
