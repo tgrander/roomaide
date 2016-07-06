@@ -2,7 +2,7 @@
   "name": "roomaide",
   "version": "1.0.0",
   "engines": {
-    "node": "6.2.2"
+    "node": "4.1.1"
   },
   "main": "index.js",
   "scripts": {
