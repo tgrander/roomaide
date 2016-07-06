@@ -22002,14 +22002,6 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Overpaid = __webpack_require__(/*! ./Overpaid.jsx */ 177);
-	
-	var _Overpaid2 = _interopRequireDefault(_Overpaid);
-	
-	var _Underpaid = __webpack_require__(/*! ./Underpaid.jsx */ 178);
-	
-	var _Underpaid2 = _interopRequireDefault(_Underpaid);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Calculations = function Calculations(_ref) {
@@ -22018,13 +22010,20 @@
 	  var names = _ref.names;
 	
 	  // var amounts = amounts;
+	
+	  //*** STORAGE AND VARIABLES USED IN CALCULATION ***//
 	  var perRoommate = total / 4;
+	
 	  var overpaid = [],
 	      underpaid = [],
 	      even = [],
-	      paidAmounts = {},
+	      resultsList = [];
+	
+	  var paidAmounts = {},
 	      allocationPercentages = {},
 	      owedAmounts = {};
+	
+	  // POPULATES OVERPAID AND UNDERPAID WITH ROOMIE IDS
 	
 	  for (var id in amounts) {
 	    var paid = amounts[id] - perRoommate;
@@ -22040,6 +22039,8 @@
 	    paidAmounts[id] = paid;
 	  }
 	
+	  // CALCULATES ALLOCATION PERCENTAGE
+	
 	  var totalOverpaid = 0;
 	  overpaid.forEach(function (x) {
 	    totalOverpaid += paidAmounts[x];
@@ -22047,118 +22048,41 @@
 	  overpaid.forEach(function (x) {
 	    allocationPercentages[x] = paidAmounts[x] / (1.0 * totalOverpaid);
 	  });
+	
+	  console.log("Calculation.jsx/ Allication percentage: ", allocationPercentages);
+	
+	  // APPLIES ALLOCATION PERCENTAGE
+	
 	  underpaid.forEach(function (x) {
 	    paidAmounts[x] * -1;
 	  });
 	
-	  console.log(paidAmounts);
-	  console.log("Overapid: ", overpaid);
+	  console.log('Paid Amounts: ', paidAmounts);
+	  console.log("Overpaid: ", overpaid);
 	  console.log("Underpaid: ", underpaid);
+	  console.log("Results List: ", resultsList);
 	
-	  var overpaidRender = overpaid.map(function (id) {
-	    _react2.default.createElement(_Overpaid2.default, {
-	      id: id,
-	      paidAmounts: paidAmounts
-	    });
-	  });
-	  var underpaidRender = underpaid.map(function (id) {
-	    _react2.default.createElement(_Underpaid2.default, {
-	      id: id,
-	      paidAmounts: paidAmounts
+	  var results = underpaid.forEach(function (x) {
+	    overpaid.forEach(function (y) {
+	      var thisAmount = paidAmounts[x] * -1 * allocationPercentages[y];
+	      console.log("Owed Amount: ", thisAmount);
+	      var result = _react2.default.createElement(
+	        'p',
+	        { className: 'result' },
+	        names[x] + ' owes ' + names[y] + ' ' + thisAmount
+	      );
+	      resultsList.push(result);
 	    });
 	  });
 	
 	  return _react2.default.createElement(
 	    'div',
 	    null,
-	    _react2.default.createElement(
-	      'div',
-	      null,
-	      overpaidRender
-	    ),
-	    _react2.default.createElement(
-	      'div',
-	      null,
-	      underpaidRender
-	    )
+	    resultsList
 	  );
-	
-	  //for each roommate perform the following
-	  //calculate if overpaid or underpaid
-	  //underpaid -> push roomie id to underapid array
-	  //overapid -> push roomie id to overpaid array
-	
-	  //for each roommate in underpaid and overpaid array
-	  //underpaid -> <p>{roomie.name} underpaid by {underpayment}</p>
-	  //for each roomie that overapid
-	  //owes {overpaid.name} {allocation calculation}
-	  //overpaid -> <p>{roomie.name} overapaid by {overpayment}</p>
-	  //for each roomie that underpaid
-	  // owed {allocation percentage} from {roomie.name}
-	
-	  return _react2.default.createElement('div', null);
 	};
 	
 	exports.default = Calculations;
-
-/***/ },
-/* 176 */,
-/* 177 */
-/*!*************************************!*\
-  !*** ./src/client/app/Overpaid.jsx ***!
-  \*************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var Overpaid = function Overpaid(_ref) {
-	  var id = _ref.id;
-	  var paidAmounts = _ref.paidAmounts;
-	
-	  console.log(paidAmounts);
-	
-	  return _react2.default.createElement('p', null);
-	};
-	
-	exports.default = Overpaid;
-
-/***/ },
-/* 178 */
-/*!**************************************!*\
-  !*** ./src/client/app/Underpaid.jsx ***!
-  \**************************************/
-/***/ function(module, exports, __webpack_require__) {
-
-	"use strict";
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _react = __webpack_require__(/*! react */ 1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var Underpaid = function Underpaid(_ref) {
-	  var id = _ref.id;
-	  var paidAmounts = _ref.paidAmounts;
-	
-	  return _react2.default.createElement("div", { className: "result" });
-	};
-	
-	exports.default = Underpaid;
 
 /***/ }
 /******/ ]);
