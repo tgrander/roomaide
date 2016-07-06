@@ -1,0 +1,72 @@
+.header {
+	text-align: center;
+}
+
+.roomie-list {
+	float: left;
+}
+.summary {
+	float: right;
+}
+
+.dash {
+	width: 80%;
+	margin: 0 auto;
+	text-align: center;
+}
+
+.add-roomie {
+	/*text-align:center;*/
+	margin: 5px 0;
+	color: #fff;
+	background-color: #5cb85c;
+
+	padding: 6px 12px;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	vertical-align: middle;
+	border: 1px solid #4cae4c;
+	border-radius: 4px;
+	text-decoration: none;
+	width: 150px;
+}
+
+.add-roomie:hover {
+	background-color: #449d44;
+	border-color: #398439;
+}
+
+.months {
+	text-align:center;
+	display: block;
+}
+
+.logo {
+	text-align: center;
+}
+
+.description {
+	text-align: center;
+}
+
+.form-control, .utility-name {
+	display: inline-block;
+}
+
+.roomie-container {
+	text-align: left;
+}
+
+.roomie-name {
+	font-weight: bold;
+}
+
+.summary-totals {
+	text-align: left;
+}
+
+.summary-logo {
+	text-align: center;
+}
