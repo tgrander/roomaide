@@ -10,8 +10,10 @@ var Roommates = ({data, handleAmountInputChange}) => {
       key={roomie.id}
       roomie={roomie}
       handleAmountInputChange={handleAmountInputChange}
-    />
-  );
+    / >
+  )
+
+
 
   return (
     <div className="roomie-list">

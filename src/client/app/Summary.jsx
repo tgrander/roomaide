@@ -1,14 +1,14 @@
 import React from 'react';
 import Calculations from './Calculations.jsx'
 
-var Summary = () => {
+var Summary = ({total}) => {
   return (
     <div className="summary">
       <h3 className="summary-logo">SUMMARY</h3>
 
       <div className="summary-totals">
-        <p>TOTAL: </p>
-        <p>Per Roommate: </p>
+        <p> TOTAL: ${total || 0} </p>
+        <p> Per Roommate: ${total/4 || 0} </p>
       </div>
 
     </div>

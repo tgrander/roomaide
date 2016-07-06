@@ -1,30 +1,29 @@
 import React from 'react';
 
-var Header = () => {
-  return (
-    <div className="header">
-      <div className="months">
-        Month:
-        <select>
-          <option>January</option>
-          <option>February</option>
-          <option>March</option>
-          <option>April</option>
-          <option>May</option>
-          <option>June</option>
-          <option>July</option>
-          <option>August</option>
-          <option>September</option>
-          <option>October</option>
-          <option>November</option>
-          <option>December</option>
-        </select>
+class Header extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      initial: 0
+    }
+  }
+
+  handleSubmitClick(){
+    console.log(this.state.initial);
+    // this.props.handleSubmitClick
+    console.log('clicked');
+  }
+
+  render(){
+    return (
+      <div className="header">
+        <a href="#" className="add-roomie">Add New Roomie</a>
+        <button onClick={this.handleSubmitClick} className="submit">
+            <span className="submit-button-text">Submit Expenses</span>
+        </button>
       </div>
-      <div className="add-roomie">
-        <a href="#">Add New Roomie</a>
-      </div>
-    </div>
-  )
+    )
+  }
 }
 
 export default Header;

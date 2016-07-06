@@ -120,9 +120,9 @@
 	        2: 0,
 	        3: 0,
 	        4: 0
-	      }
+	      },
+	      total: 0
 	    };
-	    console.log("Utility Amounts: ", _this.state.utilityAmounts[1]);
 	    return _this;
 	  }
 	
@@ -150,11 +150,25 @@
 	      //on success, concat roomie data into this.state.data
 	    }
 	  }, {
+	    key: "_calculateTotal",
+	    value: function _calculateTotal(obj) {
+	      // var amounts = this.state.utilityAmounts,
+	      var total = 0;
+	      for (var key in obj) {
+	        total += obj[key];
+	      }
+	      this.setState({ total: total });
+	    }
+	  }, {
 	    key: "_handleAmountInputChange",
 	    value: function _handleAmountInputChange(id, value) {
-	      // this.setState({
-	      //   utilityAmounts[id] = value;
-	      // })
+	      var newObj = $.extend({}, true, this.state.utilityAmounts);
+	      console.log("App/ ID: ", newObj[id]);
+	      console.log("App/ newObj: ", newObj);
+	      newObj[id] = value;
+	
+	      this.setState({ utilityAmounts: newObj });
+	      this._calculateTotal(newObj);
 	
 	      //update this.state.utilityAmounts to reflect the changing input values for ea roomie
 	      //dynamically update TOTAL and Per Roommate optimistically
@@ -162,17 +176,12 @@
 	      //send POST request to server adding utility amount to specific roomie
 	      //(use roomie id to specify which roomie)
 	      //on success, make GET request that updates the calculations in summary
-	      return;
 	    }
 	  }, {
-	    key: "_calculateTotal",
-	    value: function _calculateTotal() {
-	      var amounts = this.state.utilityAmounts,
-	          total = 0;
-	      for (var key in amounts) {
-	        total += amounts[key];
-	      }
-	      return total;
+	    key: "_handleSubmitClick",
+	    value: function _handleSubmitClick() {
+	
+	      return;
 	    }
 	  }, {
 	    key: "render",
@@ -181,10 +190,13 @@
 	      return _react2.default.createElement(
 	        "div",
 	        { className: "mainApp" },
-	        _react2.default.createElement(_Header2.default, null),
+	        _react2.default.createElement(_Header2.default, {
+	          handleSubmitClick: this._handleSubmitClick.bind(this)
+	        }),
 	        _react2.default.createElement(_Dashboard2.default, {
 	          data: this.state.data,
-	          handleAmountInputChange: this._handleAmountInputChange.bind(this)
+	          handleAmountInputChange: this._handleAmountInputChange.bind(this),
+	          total: this.state.total
 	        })
 	      );
 	    }
@@ -21624,11 +21636,13 @@
   \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(/*! react */ 1);
 	
@@ -21636,90 +21650,59 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Header = function Header() {
-	  return _react2.default.createElement(
-	    "div",
-	    { className: "header" },
-	    _react2.default.createElement(
-	      "div",
-	      { className: "months" },
-	      "Month:",
-	      _react2.default.createElement(
-	        "select",
-	        null,
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var Header = function (_React$Component) {
+	  _inherits(Header, _React$Component);
+	
+	  function Header(props) {
+	    _classCallCheck(this, Header);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Header).call(this, props));
+	
+	    _this.state = {
+	      initial: 0
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(Header, [{
+	    key: 'handleSubmitClick',
+	    value: function handleSubmitClick() {
+	      console.log(this.state.initial);
+	      // this.props.handleSubmitClick
+	      console.log('clicked');
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'header' },
 	        _react2.default.createElement(
-	          "option",
-	          null,
-	          "January"
+	          'a',
+	          { href: '#', className: 'add-roomie' },
+	          'Add New Roomie'
 	        ),
 	        _react2.default.createElement(
-	          "option",
-	          null,
-	          "February"
-	        ),
-	        _react2.default.createElement(
-	          "option",
-	          null,
-	          "March"
-	        ),
-	        _react2.default.createElement(
-	          "option",
-	          null,
-	          "April"
-	        ),
-	        _react2.default.createElement(
-	          "option",
-	          null,
-	          "May"
-	        ),
-	        _react2.default.createElement(
-	          "option",
-	          null,
-	          "June"
-	        ),
-	        _react2.default.createElement(
-	          "option",
-	          null,
-	          "July"
-	        ),
-	        _react2.default.createElement(
-	          "option",
-	          null,
-	          "August"
-	        ),
-	        _react2.default.createElement(
-	          "option",
-	          null,
-	          "September"
-	        ),
-	        _react2.default.createElement(
-	          "option",
-	          null,
-	          "October"
-	        ),
-	        _react2.default.createElement(
-	          "option",
-	          null,
-	          "November"
-	        ),
-	        _react2.default.createElement(
-	          "option",
-	          null,
-	          "December"
+	          'button',
+	          { onClick: this.handleSubmitClick, className: 'submit' },
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'submit-button-text' },
+	            'Submit Expenses'
+	          )
 	        )
-	      )
-	    ),
-	    _react2.default.createElement(
-	      "div",
-	      { className: "add-roomie" },
-	      _react2.default.createElement(
-	        "a",
-	        { href: "#" },
-	        "Add New Roomie"
-	      )
-	    )
-	  );
-	};
+	      );
+	    }
+	  }]);
+	
+	  return Header;
+	}(_react2.default.Component);
 	
 	exports.default = Header;
 
@@ -21753,6 +21736,7 @@
 	var Dashboard = function Dashboard(_ref) {
 	  var data = _ref.data;
 	  var handleAmountInputChange = _ref.handleAmountInputChange;
+	  var total = _ref.total;
 	
 	  return _react2.default.createElement(
 	    'div',
@@ -21761,7 +21745,9 @@
 	      data: data,
 	      handleAmountInputChange: handleAmountInputChange
 	    }),
-	    _react2.default.createElement(_Summary2.default, null)
+	    _react2.default.createElement(_Summary2.default, {
+	      total: total
+	    })
 	  );
 	};
 	
@@ -21826,7 +21812,7 @@
   \***********************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -21856,54 +21842,53 @@
 	
 	    _this.state = {
 	      id: _this.props.roomie.id,
-	      value: ''
+	      value: ""
 	    };
+	
 	    return _this;
 	  }
 	
 	  _createClass(Roomie, [{
-	    key: '_handleAmountInputChange',
+	    key: "_handleAmountInputChange",
 	    value: function _handleAmountInputChange(e) {
-	      this.props.handleAmountInputChange(e);
-	      this.setState({
-	        value: e
-	      });
+	      var amount = parseInt(e.target.value),
+	          id = this.state.id;
+	      if (!amount) {
+	        amount = 0;
+	      }
+	      this.props.handleAmountInputChange(id, amount);
+	      this.setState({ value: amount });
 	    }
 	  }, {
-	    key: 'render',
+	    key: "render",
 	    value: function render() {
-	      var _this2 = this;
-	
 	      return _react2.default.createElement(
-	        'div',
-	        { className: 'roomie-container' },
+	        "div",
+	        { className: "roomie-container" },
 	        _react2.default.createElement(
-	          'div',
+	          "div",
 	          null,
 	          _react2.default.createElement(
-	            'p',
-	            { className: 'roomie-name' },
+	            "p",
+	            { className: "roomie-name" },
 	            this.props.roomie.name
 	          )
 	        ),
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'utility-container' },
+	          "div",
+	          { className: "utility-container" },
 	          _react2.default.createElement(
-	            'p',
-	            { className: 'utility-name' },
+	            "p",
+	            { className: "utility-name" },
 	            this.props.roomie.utility,
-	            ':  '
+	            ":  "
 	          ),
-	          _react2.default.createElement('input', {
-	            className: 'form-control',
-	            type: 'text',
-	            placeholder: 'Enter Amount',
+	          _react2.default.createElement("input", {
+	            className: "form-control",
+	            type: "text",
+	            placeholder: "Enter Amount",
 	            value: this.state.value,
-	            onChange: function onChange(e) {
-	              _this2._handleAmountInputChange(e.target.value);
-	              console.log(_this2.state.id);
-	            }
+	            onChange: this._handleAmountInputChange.bind(this)
 	          })
 	        )
 	      );
@@ -21938,7 +21923,9 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Summary = function Summary() {
+	var Summary = function Summary(_ref) {
+	  var total = _ref.total;
+	
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'summary' },
@@ -21953,12 +21940,16 @@
 	      _react2.default.createElement(
 	        'p',
 	        null,
-	        'TOTAL: '
+	        ' TOTAL: $',
+	        total || 0,
+	        ' '
 	      ),
 	      _react2.default.createElement(
 	        'p',
 	        null,
-	        'Per Roommate: '
+	        ' Per Roommate: $',
+	        total / 4 || 0,
+	        ' '
 	      )
 	    )
 	  );
@@ -21985,7 +21976,9 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var Calculations = function Calculations() {};
+	var Calculations = function Calculations(_ref) {
+	  var data = _ref.data;
+	};
 	
 	exports.default = Calculations;
 

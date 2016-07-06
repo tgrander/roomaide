@@ -5,16 +5,20 @@ class Roomie extends React.Component {
     super(props);
     this.state = {
       id: this.props.roomie.id,
-      value: ''
+      value: ""
     }
+
   };
 
   _handleAmountInputChange(e){
-    this.props.handleAmountInputChange(e);
-    this.setState({
-      value: e
-    });
-  }
+    var amount = parseInt(e.target.value),
+        id = this.state.id;
+    if (!amount) {
+      amount = 0
+    }
+    this.props.handleAmountInputChange(id, amount);
+    this.setState({value: amount});
+  };
 
   render(){
     return (
@@ -22,7 +26,6 @@ class Roomie extends React.Component {
         <div>
           <p className="roomie-name">{this.props.roomie.name}</p>
         </div>
-
         <div className="utility-container">
           <p className="utility-name">{this.props.roomie.utility}:  </p>
           <input
@@ -30,13 +33,9 @@ class Roomie extends React.Component {
             type="text"
             placeholder="Enter Amount"
             value={this.state.value}
-            onChange={(e) => {
-              this._handleAmountInputChange(e.target.value);
-              console.log(this.state.id);
-            }}
+            onChange={this._handleAmountInputChange.bind(this)}
           />
         </div>
-
       </div>
     )
   }

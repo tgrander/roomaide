@@ -50,9 +50,9 @@ class App extends React.Component {
         2: 0,
         3: 0,
         4: 0
-      }
+      },
+      total: 0
     };
-    console.log("Utility Amounts: ", this.state.utilityAmounts[1]);
   }
 
   // _dynamicTotal(){
@@ -72,11 +72,22 @@ class App extends React.Component {
     //make GET request to server for roomie data
       //on success, concat roomie data into this.state.data
   };
+  _calculateTotal(obj){
+    // var amounts = this.state.utilityAmounts,
+    var total = 0
+    for (var key in obj){
+      total += obj[key];
+    }
+    this.setState({total: total})
+  }
   _handleAmountInputChange(id, value){
-    var amounts = this.state.utilityAmounts;
-    this.setState({
-      amounts[id] = value;
-    })
+    var newObj = $.extend({}, true, this.state.utilityAmounts);
+    console.log("App/ ID: ", newObj[id]);
+    console.log("App/ newObj: ", newObj);
+    newObj[id] = value;
+
+    this.setState({utilityAmounts: newObj})
+    this._calculateTotal(newObj);
 
     //update this.state.utilityAmounts to reflect the changing input values for ea roomie
     //dynamically update TOTAL and Per Roommate optimistically
@@ -84,25 +95,23 @@ class App extends React.Component {
     //send POST request to server adding utility amount to specific roomie
     //(use roomie id to specify which roomie)
       //on success, make GET request that updates the calculations in summary
-    return;
   };
-  _calculateTotal(){
-    var amounts = this.state.utilityAmounts,
-        total = 0;
-    for (var key in amounts){
-      total += amounts[key];
-    }
-    return total;
+  _handleSubmitClick(){
+
+    return;
   }
 
   render () {
     // return <p> Hello World </p>
     return (
       <div className="mainApp">
-        <Header />
+        <Header
+          handleSubmitClick = {this._handleSubmitClick.bind(this)}
+        />
         <Dashboard
           data={this.state.data}
           handleAmountInputChange={this._handleAmountInputChange.bind(this)}
+          total={this.state.total}
         />
       </div>
     );

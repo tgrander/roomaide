@@ -1,7 +1,7 @@
 import React from 'react';
 
-var Calculations  = () => {
-  
+var Calculations  = ({data}) => {
+
 }
 
 export default Calculations;

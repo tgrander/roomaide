@@ -2,7 +2,7 @@ import React from 'react';
 import Roommates from './Roommates.jsx';
 import Summary from './Summary.jsx'
 
-var Dashboard = ({data, handleAmountInputChange}) => {
+var Dashboard = ({data, handleAmountInputChange, total}) => {
   return (
     <div className="dash">
 
@@ -11,7 +11,9 @@ var Dashboard = ({data, handleAmountInputChange}) => {
         handleAmountInputChange={handleAmountInputChange}
       />
 
-      <Summary />
+      <Summary
+        total={total}
+      />
 
     </div>
   )

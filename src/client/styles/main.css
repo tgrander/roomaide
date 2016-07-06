@@ -15,8 +15,25 @@
 	text-align: center;
 }
 
+.header {
+	display: block
+	text-align: center;
+}
+
 .add-roomie {
-	/*text-align:center;*/
+	display: block;
+	margin: 5px 0;
+	text-decoration: none;
+	color: #fff;
+	background-color: #5cb85c;
+	padding: 6px 12px;
+	line-height: 1.42857143;
+	vertical-align: middle;
+	border: 1px solid #4cae4c;
+	border-radius: 4px;
+}
+
+/*.add-roomie {
 	margin: 5px 0;
 	color: #fff;
 	background-color: #5cb85c;
@@ -31,12 +48,12 @@
 	border-radius: 4px;
 	text-decoration: none;
 	width: 150px;
-}
+}*/
 
-.add-roomie:hover {
+/*.add-roomie:hover {
 	background-color: #449d44;
 	border-color: #398439;
-}
+}*/
 
 .months {
 	text-align:center;
