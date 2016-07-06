@@ -113,6 +113,7 @@
 	
 	    _this.state = {
 	      data: exampleRoomieData, //an array of objects
+	      numberOfRoomies: 0,
 	      utilityAmounts: {
 	        //dynamically populate utilityAmounts properties as roommates are added
 	        //store an ID property for ea roomie whose value is updated onChange of input
@@ -121,7 +122,13 @@
 	        3: 0,
 	        4: 0
 	      },
-	      total: 0
+	      total: 0,
+	      idToName: {
+	        1: "Trey",
+	        2: "Hannah",
+	        3: "Sarah",
+	        4: "Mia"
+	      }
 	    };
 	    return _this;
 	  }
@@ -163,8 +170,6 @@
 	    key: "_handleAmountInputChange",
 	    value: function _handleAmountInputChange(id, value) {
 	      var newObj = $.extend({}, true, this.state.utilityAmounts);
-	      console.log("App/ ID: ", newObj[id]);
-	      console.log("App/ newObj: ", newObj);
 	      newObj[id] = value;
 	
 	      this.setState({ utilityAmounts: newObj });
@@ -184,6 +189,11 @@
 	      return;
 	    }
 	  }, {
+	    key: "_numberOfRoomies",
+	    value: function _numberOfRoomies() {
+	      this.setState({ numberOfRoomies: this.state.numberOfRoomies += 1 });
+	    }
+	  }, {
 	    key: "render",
 	    value: function render() {
 	      // return <p> Hello World </p>
@@ -194,9 +204,12 @@
 	          handleSubmitClick: this._handleSubmitClick.bind(this)
 	        }),
 	        _react2.default.createElement(_Dashboard2.default, {
+	          numberOfRoomies: this._numberOfRoomies.bind(this),
 	          data: this.state.data,
 	          handleAmountInputChange: this._handleAmountInputChange.bind(this),
-	          total: this.state.total
+	          total: this.state.total,
+	          amounts: this.state.utilityAmounts,
+	          names: this.state.idToName
 	        })
 	      );
 	    }
@@ -21737,16 +21750,22 @@
 	  var data = _ref.data;
 	  var handleAmountInputChange = _ref.handleAmountInputChange;
 	  var total = _ref.total;
+	  var numberOfRoomies = _ref.numberOfRoomies;
+	  var amounts = _ref.amounts;
+	  var names = _ref.names;
 	
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'dash' },
 	    _react2.default.createElement(_Roommates2.default, {
 	      data: data,
-	      handleAmountInputChange: handleAmountInputChange
+	      handleAmountInputChange: handleAmountInputChange,
+	      numberOfRoomies: numberOfRoomies
 	    }),
 	    _react2.default.createElement(_Summary2.default, {
-	      total: total
+	      total: total,
+	      amounts: amounts,
+	      names: names
 	    })
 	  );
 	};
@@ -21779,6 +21798,7 @@
 	var Roommates = function Roommates(_ref) {
 	  var data = _ref.data;
 	  var handleAmountInputChange = _ref.handleAmountInputChange;
+	  var numberOfRoomies = _ref.numberOfRoomies;
 	
 	  //accesses data of roommates from App's state, which polls data of
 	  //roommates every time 'Add New Roomie' is submitted from Header
@@ -21791,6 +21811,7 @@
 	    });
 	  });
 	
+	  // numberOfRoomies(roomiesList.length);
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'roomie-list' },
@@ -21925,6 +21946,8 @@
 	
 	var Summary = function Summary(_ref) {
 	  var total = _ref.total;
+	  var amounts = _ref.amounts;
+	  var names = _ref.names;
 	
 	  return _react2.default.createElement(
 	    'div',
@@ -21951,7 +21974,12 @@
 	        total / 4 || 0,
 	        ' '
 	      )
-	    )
+	    ),
+	    _react2.default.createElement(_Calculations2.default, {
+	      total: total,
+	      amounts: amounts,
+	      names: names
+	    })
 	  );
 	};
 	
@@ -21974,13 +22002,163 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _Overpaid = __webpack_require__(/*! ./Overpaid.jsx */ 177);
+	
+	var _Overpaid2 = _interopRequireDefault(_Overpaid);
+	
+	var _Underpaid = __webpack_require__(/*! ./Underpaid.jsx */ 178);
+	
+	var _Underpaid2 = _interopRequireDefault(_Underpaid);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var Calculations = function Calculations(_ref) {
-	  var data = _ref.data;
+	  var total = _ref.total;
+	  var amounts = _ref.amounts;
+	  var names = _ref.names;
+	
+	  // var amounts = amounts;
+	  var perRoommate = total / 4;
+	  var overpaid = [],
+	      underpaid = [],
+	      even = [],
+	      paidAmounts = {},
+	      allocationPercentages = {},
+	      owedAmounts = {};
+	
+	  for (var id in amounts) {
+	    var paid = amounts[id] - perRoommate;
+	
+	    if (paid > 0) {
+	      overpaid.push(id);
+	    } else if (paid < 0) {
+	      underpaid.push(id);
+	    } else if (paid === 0) {
+	      even.push(id);
+	    }
+	
+	    paidAmounts[id] = paid;
+	  }
+	
+	  var totalOverpaid = 0;
+	  overpaid.forEach(function (x) {
+	    totalOverpaid += paidAmounts[x];
+	  });
+	  overpaid.forEach(function (x) {
+	    allocationPercentages[x] = paidAmounts[x] / (1.0 * totalOverpaid);
+	  });
+	  underpaid.forEach(function (x) {
+	    paidAmounts[x] * -1;
+	  });
+	
+	  console.log(paidAmounts);
+	  console.log("Overapid: ", overpaid);
+	  console.log("Underpaid: ", underpaid);
+	
+	  var overpaidRender = overpaid.map(function (id) {
+	    _react2.default.createElement(_Overpaid2.default, {
+	      id: id,
+	      paidAmounts: paidAmounts
+	    });
+	  });
+	  var underpaidRender = underpaid.map(function (id) {
+	    _react2.default.createElement(_Underpaid2.default, {
+	      id: id,
+	      paidAmounts: paidAmounts
+	    });
+	  });
+	
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    _react2.default.createElement(
+	      'div',
+	      null,
+	      overpaidRender
+	    ),
+	    _react2.default.createElement(
+	      'div',
+	      null,
+	      underpaidRender
+	    )
+	  );
+	
+	  //for each roommate perform the following
+	  //calculate if overpaid or underpaid
+	  //underpaid -> push roomie id to underapid array
+	  //overapid -> push roomie id to overpaid array
+	
+	  //for each roommate in underpaid and overpaid array
+	  //underpaid -> <p>{roomie.name} underpaid by {underpayment}</p>
+	  //for each roomie that overapid
+	  //owes {overpaid.name} {allocation calculation}
+	  //overpaid -> <p>{roomie.name} overapaid by {overpayment}</p>
+	  //for each roomie that underpaid
+	  // owed {allocation percentage} from {roomie.name}
+	
+	  return _react2.default.createElement('div', null);
 	};
 	
 	exports.default = Calculations;
+
+/***/ },
+/* 176 */,
+/* 177 */
+/*!*************************************!*\
+  !*** ./src/client/app/Overpaid.jsx ***!
+  \*************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Overpaid = function Overpaid(_ref) {
+	  var id = _ref.id;
+	  var paidAmounts = _ref.paidAmounts;
+	
+	  console.log(paidAmounts);
+	
+	  return _react2.default.createElement('p', null);
+	};
+	
+	exports.default = Overpaid;
+
+/***/ },
+/* 178 */
+/*!**************************************!*\
+  !*** ./src/client/app/Underpaid.jsx ***!
+  \**************************************/
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _react = __webpack_require__(/*! react */ 1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var Underpaid = function Underpaid(_ref) {
+	  var id = _ref.id;
+	  var paidAmounts = _ref.paidAmounts;
+	
+	  return _react2.default.createElement("div", { className: "result" });
+	};
+	
+	exports.default = Underpaid;
 
 /***/ }
 /******/ ]);

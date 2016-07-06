@@ -43,6 +43,7 @@ class App extends React.Component {
 
     this.state = {
       data: exampleRoomieData, //an array of objects
+      numberOfRoomies: 0,
       utilityAmounts: {
         //dynamically populate utilityAmounts properties as roommates are added
         //store an ID property for ea roomie whose value is updated onChange of input
@@ -51,7 +52,13 @@ class App extends React.Component {
         3: 0,
         4: 0
       },
-      total: 0
+      total: 0,
+      idToName: {
+        1: "Trey",
+        2: "Hannah",
+        3: "Sarah",
+        4: "Mia"
+      }
     };
   }
 
@@ -82,8 +89,6 @@ class App extends React.Component {
   }
   _handleAmountInputChange(id, value){
     var newObj = $.extend({}, true, this.state.utilityAmounts);
-    console.log("App/ ID: ", newObj[id]);
-    console.log("App/ newObj: ", newObj);
     newObj[id] = value;
 
     this.setState({utilityAmounts: newObj})
@@ -100,6 +105,9 @@ class App extends React.Component {
 
     return;
   }
+  _numberOfRoomies(){
+    this.setState({numberOfRoomies: this.state.numberOfRoomies+=1})
+  }
 
   render () {
     // return <p> Hello World </p>
@@ -109,9 +117,12 @@ class App extends React.Component {
           handleSubmitClick = {this._handleSubmitClick.bind(this)}
         />
         <Dashboard
+          numberOfRoomies={this._numberOfRoomies.bind(this)}
           data={this.state.data}
           handleAmountInputChange={this._handleAmountInputChange.bind(this)}
           total={this.state.total}
+          amounts={this.state.utilityAmounts}
+          names={this.state.idToName}
         />
       </div>
     );

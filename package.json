@@ -1,7 +1,9 @@
 {
   "name": "roomaide",
   "version": "1.0.0",
-  "description": "",
+  "engines": {
+    "node": "5.9.1"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -14,12 +16,27 @@
     "babel-loader": "^6.2.4",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-react": "^6.11.1",
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.2",
+    "ejs": "^2.4.2",
+    "express": "^4.14.0",
     "jquery": "^3.0.0",
+    "nodejs": "0.0.0",
     "react": "^15.2.0",
     "react-dom": "^15.2.0",
     "webpack": "^1.13.1"
   },
   "devDependencies": {
     "react-hot-loader": "^1.3.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tgrander/roomaide.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/tgrander/roomaide/issues"
+  },
+  "homepage": "https://github.com/tgrander/roomaide#readme",
+  "description": ""
 }
