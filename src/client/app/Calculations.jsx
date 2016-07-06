@@ -41,22 +41,15 @@ var Calculations  = ({total, amounts, names}) => {
     allocationPercentages[x] = (paidAmounts[x]/(1.0*totalOverpaid));
   })
 
-  console.log("Calculation.jsx/ Allication percentage: ", allocationPercentages);
-
 // APPLIES ALLOCATION PERCENTAGE
 
   underpaid.forEach(x => {
     (paidAmounts[x]*-1)
   })
 
-  console.log('Paid Amounts: ', paidAmounts);
-  console.log("Overpaid: ",overpaid);
-  console.log("Underpaid: ",underpaid);
-  console.log("Results List: ", resultsList);
-
   var results = underpaid.forEach((x) => {
     overpaid.forEach((y) => {
-      var thisAmount = (paidAmounts[x]*-1)*(allocationPercentages[y]);
+      var thisAmount = parseFloat(Math.round(paidAmounts[x]*-1)*(allocationPercentages[y]).toFixed(2));
       console.log("Owed Amount: ", thisAmount);
       var result = <p className="result">{`${names[x]} owes ${names[y]} ${thisAmount}`}</p>
         resultsList.push(result);

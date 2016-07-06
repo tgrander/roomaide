@@ -21962,14 +21962,14 @@
 	      { className: 'summary-totals' },
 	      _react2.default.createElement(
 	        'p',
-	        null,
+	        { className: 'total' },
 	        ' TOTAL: $',
 	        total || 0,
 	        ' '
 	      ),
 	      _react2.default.createElement(
 	        'p',
-	        null,
+	        { className: 'per-roommate' },
 	        ' Per Roommate: $',
 	        total / 4 || 0,
 	        ' '
@@ -21992,7 +21992,7 @@
   \*****************************************/
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -22049,34 +22049,27 @@
 	    allocationPercentages[x] = paidAmounts[x] / (1.0 * totalOverpaid);
 	  });
 	
-	  console.log("Calculation.jsx/ Allication percentage: ", allocationPercentages);
-	
 	  // APPLIES ALLOCATION PERCENTAGE
 	
 	  underpaid.forEach(function (x) {
 	    paidAmounts[x] * -1;
 	  });
 	
-	  console.log('Paid Amounts: ', paidAmounts);
-	  console.log("Overpaid: ", overpaid);
-	  console.log("Underpaid: ", underpaid);
-	  console.log("Results List: ", resultsList);
-	
 	  var results = underpaid.forEach(function (x) {
 	    overpaid.forEach(function (y) {
-	      var thisAmount = paidAmounts[x] * -1 * allocationPercentages[y];
+	      var thisAmount = parseFloat(Math.round(paidAmounts[x] * -1) * allocationPercentages[y].toFixed(2));
 	      console.log("Owed Amount: ", thisAmount);
 	      var result = _react2.default.createElement(
-	        'p',
-	        { className: 'result' },
-	        names[x] + ' owes ' + names[y] + ' ' + thisAmount
+	        "p",
+	        { className: "result" },
+	        names[x] + " owes " + names[y] + " " + thisAmount
 	      );
 	      resultsList.push(result);
 	    });
 	  });
 	
 	  return _react2.default.createElement(
-	    'div',
+	    "div",
 	    null,
 	    resultsList
 	  );
